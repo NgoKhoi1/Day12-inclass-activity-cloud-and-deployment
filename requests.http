@@ -1,0 +1,27 @@
+@base_url = http://localhost:8000
+# Keep this in sync with local .env APP_API_KEY.
+# This is a demo-only value, not a production secret.
+@api_key = change-me-dev-only-random-32-chars
+
+### Health check
+GET {{base_url}}/health
+
+### Readiness check
+GET {{base_url}}/ready
+
+### Ask with API key
+POST {{base_url}}/ask
+Content-Type: application/json
+X-API-Key: {{api_key}}
+
+{
+  "question": "Tóm tắt các điểm cần kiểm tra trước khi deploy AI agent lên cloud"
+}
+
+### Unauthorized request should return 401
+POST {{base_url}}/ask
+Content-Type: application/json
+
+{
+  "question": "Request này thiếu API key"
+}

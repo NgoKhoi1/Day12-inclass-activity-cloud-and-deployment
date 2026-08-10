@@ -1,0 +1,21 @@
+services:
+  agent:
+    build: .
+    ports:
+      - "${HOST_PORT:-8000}:${PORT:-8000}"
+    environment:
+      # Do not put real keys directly in docker-compose.yml.
+      # For local class work: copy .env.example to .env and edit APP_API_KEY there.
+      # For cloud: set APP_API_KEY in the platform's secret/env-var manager.
+      APP_API_KEY: ${APP_API_KEY:?APP_API_KEY is required. Copy .env.example to .env and set a local demo key.}
+      APP_VERSION: ${APP_VERSION:-0.1.0}
+      ENVIRONMENT: ${ENVIRONMENT:-local-docker}
+      MAX_QUESTION_CHARS: ${MAX_QUESTION_CHARS:-2000}
+      RATE_LIMIT_PER_MINUTE: ${RATE_LIMIT_PER_MINUTE:-20}
+      PORT: ${PORT:-8000}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os, urllib.request; urllib.request.urlopen('http://127.0.0.1:%s/health' % os.getenv('PORT','8000'), timeout=2)"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 15s

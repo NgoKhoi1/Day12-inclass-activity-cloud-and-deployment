@@ -1,0 +1,27 @@
+# Local secrets and machine-specific config
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+*.crt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
+# Runtime output
+*.log
+coverage/
+dist/
+build/
